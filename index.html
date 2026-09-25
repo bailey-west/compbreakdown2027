@@ -33,16 +33,14 @@
                 background-color: #ffffff;
                 -webkit-print-color-adjust: exact;
                 print-color-adjust: exact;
-                display: flex;
-                justify-content: center;
-                align-items: flex-start;
             }
             .hide-on-print {
                 display: none !important;
             }
             .print-container {
-                width: 100%;
-                margin: 0 auto !important;
+                width: 100% !important;
+                max-width: 100% !important;
+                margin: 0 !important;
                 padding: 0 !important;
                 box-shadow: none !important;
                 border: none !important;
@@ -53,19 +51,6 @@
             .print-grid-m1 { display: grid !important; grid-template-columns: repeat(5, 1fr) !important; gap: 0.5rem !important; }
             .print-grid-m2 { display: grid !important; grid-template-columns: repeat(3, 1fr) !important; gap: 0.5rem !important; }
             .print-grid-m3 { display: grid !important; grid-template-columns: repeat(2, 1fr) !important; gap: 0.5rem !important; }
-
-            /* Strip out excessive margins and paddings for the print layout */
-            header { padding: 1rem !important; }
-            .p-6, .md\:p-8 { padding: 1rem !important; }
-            .mb-10 { margin-bottom: 1rem !important; }
-            .mb-6 { margin-bottom: 0.5rem !important; }
-            
-            /* Shrink Cards */
-            .p-5 { padding: 0.5rem !important; }
-            h4 { font-size: 1.05rem !important; margin-bottom: 0 !important; margin-top: 0.25rem !important; }
-            p.text-xs { margin-bottom: 0.25rem !important; font-size: 0.65rem !important; }
-            .text-4xl, .text-3xl { font-size: 1.5rem !important; line-height: 1 !important; }
-            .border-t { margin-top: 0.25rem !important; padding-top: 0.25rem !important; }
 
             .page-break {
                 page-break-before: always;
@@ -184,61 +169,61 @@
                         </div>
 
                         <!-- All Other Mobile -->
-                        <div class="bg-white rounded-2xl border border-gray-200 p-5 shadow-sm relative overflow-hidden">
-                            <div class="absolute top-0 right-0 bg-gray-200 text-gray-700 text-xs font-bold px-3 py-1 rounded-bl-lg">1.0 Credits</div>
+                        <div class="bg-purple-50 rounded-2xl border-2 border-purple-200 p-5 shadow-sm relative overflow-hidden">
+                            <div class="absolute top-0 right-0 bg-m1 text-white text-xs font-bold px-3 py-1 rounded-bl-lg">1.0 Credits</div>
                             <h4 class="text-xl font-bold text-gray-800 mb-1 mt-2">All Other Mobile</h4>
-                            <p class="text-xs text-gray-500 font-semibold mb-4 uppercase tracking-wider">Standard Lines & Wablets</p>
+                            <p class="text-xs text-purple-600 font-semibold mb-4 uppercase tracking-wider">Standard Lines & Wablets</p>
                             
                             <div class="mb-2">
                                 <p class="text-xs text-gray-500 font-bold uppercase tracking-wider mb-1">Accelerator Payout (110%+)</p>
-                                <p class="text-4xl font-black text-gray-800" id="m1-other-accel">$0.00</p>
+                                <p class="text-4xl font-black text-m1" id="m1-other-accel">$0.00</p>
                             </div>
-                            <div class="border-t border-gray-100 mt-3 pt-3">
-                                <p class="text-sm font-semibold text-gray-500">80-110% Payout Window: <span id="m1-other-base" class="text-gray-700 font-bold">$0.00</span></p>
+                            <div class="border-t border-purple-200 mt-3 pt-3">
+                                <p class="text-sm font-semibold text-gray-600">80-110% Payout Window: <span id="m1-other-base" class="text-gray-800 font-bold">$0.00</span></p>
                             </div>
                         </div>
 
                         <!-- Upgrades -->
-                        <div class="bg-white rounded-2xl border border-gray-200 p-5 shadow-sm relative overflow-hidden">
-                            <div class="absolute top-0 right-0 bg-gray-200 text-gray-700 text-xs font-bold px-3 py-1 rounded-bl-lg">0.50 Credits</div>
+                        <div class="bg-purple-50 rounded-2xl border-2 border-purple-200 p-5 shadow-sm relative overflow-hidden">
+                            <div class="absolute top-0 right-0 bg-m1 text-white text-xs font-bold px-3 py-1 rounded-bl-lg">0.50 Credits</div>
                             <h4 class="text-xl font-bold text-gray-800 mb-1 mt-2">Device Upgrades</h4>
-                            <p class="text-xs text-gray-500 font-semibold mb-4 uppercase tracking-wider">Hardware</p>
+                            <p class="text-xs text-purple-600 font-semibold mb-4 uppercase tracking-wider">Hardware</p>
                             
                             <div class="mb-2">
                                 <p class="text-xs text-gray-500 font-bold uppercase tracking-wider mb-1">Accelerator Payout (110%+)</p>
-                                <p class="text-3xl font-black text-gray-800" id="m1-upgrade-accel">$0.00</p>
+                                <p class="text-3xl font-black text-m1" id="m1-upgrade-accel">$0.00</p>
                             </div>
-                            <div class="border-t border-gray-100 mt-3 pt-3">
-                                <p class="text-sm font-semibold text-gray-500">80-110% Payout Window: <span id="m1-upgrade-base" class="text-gray-700 font-bold">$0.00</span></p>
+                            <div class="border-t border-purple-200 mt-3 pt-3">
+                                <p class="text-sm font-semibold text-gray-600">80-110% Payout Window: <span id="m1-upgrade-base" class="text-gray-800 font-bold">$0.00</span></p>
                             </div>
                         </div>
 
                         <!-- Tier Upgrades -->
-                        <div class="bg-white rounded-2xl border border-gray-200 p-5 shadow-sm relative overflow-hidden">
-                            <div class="absolute top-0 right-0 bg-gray-200 text-gray-700 text-xs font-bold px-3 py-1 rounded-bl-lg">0.25 Credits</div>
+                        <div class="bg-purple-50 rounded-2xl border-2 border-purple-200 p-5 shadow-sm relative overflow-hidden">
+                            <div class="absolute top-0 right-0 bg-m1 text-white text-xs font-bold px-3 py-1 rounded-bl-lg">0.25 Credits</div>
                             <h4 class="text-lg font-bold text-gray-800 mb-1 mt-2 leading-tight">Tier Upgrades /<br>XM Care</h4>
-                            <p class="text-xs text-gray-500 font-semibold mb-2 uppercase tracking-wider">Existing CX</p>
+                            <p class="text-xs text-purple-600 font-semibold mb-2 uppercase tracking-wider">Existing CX</p>
                             
                             <div class="mb-2 mt-2">
                                 <p class="text-xs text-gray-500 font-bold uppercase tracking-wider mb-1">Accelerator (110%+)</p>
-                                <p class="text-3xl font-black text-gray-800" id="m1-tier-accel">$0.00</p>
+                                <p class="text-3xl font-black text-m1" id="m1-tier-accel">$0.00</p>
                             </div>
-                            <div class="border-t border-gray-100 mt-3 pt-3">
-                                <p class="text-sm font-semibold text-gray-500">80-110% Payout Window: <span id="m1-tier-base" class="text-gray-700 font-bold">$0.00</span></p>
+                            <div class="border-t border-purple-200 mt-3 pt-3">
+                                <p class="text-sm font-semibold text-gray-600">80-110% Payout Window: <span id="m1-tier-base" class="text-gray-800 font-bold">$0.00</span></p>
                             </div>
                         </div>
 
                         <!-- Double Ups -->
-                        <div class="bg-indigo-50 rounded-2xl border-2 border-indigo-200 p-5 shadow-sm relative overflow-hidden">
-                            <div class="absolute top-0 right-0 bg-indigo-500 text-white text-xs font-bold px-3 py-1 rounded-bl-lg">0.75 Credits</div>
+                        <div class="bg-purple-50 rounded-2xl border-2 border-purple-200 p-5 shadow-sm relative overflow-hidden">
+                            <div class="absolute top-0 right-0 bg-m1 text-white text-xs font-bold px-3 py-1 rounded-bl-lg">0.75 Credits</div>
                             <h4 class="text-xl font-bold text-gray-800 mb-1 mt-2">Double Ups</h4>
-                            <p class="text-xs text-indigo-600 font-semibold mb-4 uppercase tracking-wider">Device + Tier</p>
+                            <p class="text-xs text-purple-600 font-semibold mb-4 uppercase tracking-wider">Device + Tier</p>
                             
                             <div class="mb-2">
                                 <p class="text-xs text-gray-500 font-bold uppercase tracking-wider mb-1">Accelerator Payout (110%+)</p>
-                                <p class="text-3xl font-black text-indigo-700" id="m1-double-accel">$0.00</p>
+                                <p class="text-3xl font-black text-m1" id="m1-double-accel">$0.00</p>
                             </div>
-                            <div class="border-t border-indigo-200 mt-3 pt-3">
+                            <div class="border-t border-purple-200 mt-3 pt-3">
                                 <p class="text-sm font-semibold text-gray-600">80-110% Payout Window: <span id="m1-double-base" class="text-gray-800 font-bold">$0.00</span></p>
                             </div>
                         </div>
@@ -273,32 +258,32 @@
                         </div>
 
                         <!-- All Other Internet -->
-                        <div class="bg-white rounded-2xl border border-gray-200 p-5 shadow-sm relative overflow-hidden">
-                            <div class="absolute top-0 right-0 bg-gray-200 text-gray-700 text-xs font-bold px-3 py-1 rounded-bl-lg">1.0 Credits</div>
+                        <div class="bg-teal-50 rounded-2xl border-2 border-teal-200 p-5 shadow-sm relative overflow-hidden">
+                            <div class="absolute top-0 right-0 bg-m2 text-white text-xs font-bold px-3 py-1 rounded-bl-lg">1.0 Credits</div>
                             <h4 class="text-xl font-bold text-gray-800 mb-1 mt-2">All Other Internet</h4>
-                            <p class="text-xs text-gray-500 font-semibold mb-4 uppercase tracking-wider">Standard Speed</p>
+                            <p class="text-xs text-teal-600 font-semibold mb-4 uppercase tracking-wider">Standard Speed</p>
                             
                             <div class="mb-2">
                                 <p class="text-xs text-gray-500 font-bold uppercase tracking-wider mb-1">Accelerator Payout (110%+)</p>
-                                <p class="text-4xl font-black text-gray-800" id="m2-other-accel">$0.00</p>
+                                <p class="text-4xl font-black text-m2" id="m2-other-accel">$0.00</p>
                             </div>
-                            <div class="border-t border-gray-100 mt-3 pt-3">
-                                <p class="text-sm font-semibold text-gray-500">80-110% Payout Window: <span id="m2-other-base" class="text-gray-700 font-bold">$0.00</span></p>
+                            <div class="border-t border-teal-200 mt-3 pt-3">
+                                <p class="text-sm font-semibold text-gray-600">80-110% Payout Window: <span id="m2-other-base" class="text-gray-800 font-bold">$0.00</span></p>
                             </div>
                         </div>
 
                         <!-- Tier Upgrades / Next-Gen -->
-                        <div class="bg-white rounded-2xl border border-gray-200 p-5 shadow-sm relative overflow-hidden">
-                            <div class="absolute top-0 right-0 bg-gray-200 text-gray-700 text-xs font-bold px-3 py-1 rounded-bl-lg">0.25 Credits</div>
+                        <div class="bg-teal-50 rounded-2xl border-2 border-teal-200 p-5 shadow-sm relative overflow-hidden">
+                            <div class="absolute top-0 right-0 bg-m2 text-white text-xs font-bold px-3 py-1 rounded-bl-lg">0.25 Credits</div>
                             <h4 class="text-lg font-bold text-gray-800 mb-1 mt-2 leading-tight">Tier Upgrades /<br>Next-Gen Conv.</h4>
-                            <p class="text-xs text-gray-500 font-semibold mb-2 uppercase tracking-wider">Existing CX & XPro</p>
+                            <p class="text-xs text-teal-600 font-semibold mb-2 uppercase tracking-wider">Existing CX & XPro</p>
                             
                             <div class="mb-2 mt-2">
                                 <p class="text-xs text-gray-500 font-bold uppercase tracking-wider mb-1">Accelerator (110%+)</p>
-                                <p class="text-3xl font-black text-gray-800" id="m2-tier-accel">$0.00</p>
+                                <p class="text-3xl font-black text-m2" id="m2-tier-accel">$0.00</p>
                             </div>
-                            <div class="border-t border-gray-100 mt-3 pt-3">
-                                <p class="text-sm font-semibold text-gray-500">80-110% Payout Window: <span id="m2-tier-base" class="text-gray-700 font-bold">$0.00</span></p>
+                            <div class="border-t border-teal-200 mt-3 pt-3">
+                                <p class="text-sm font-semibold text-gray-600">80-110% Payout Window: <span id="m2-tier-base" class="text-gray-800 font-bold">$0.00</span></p>
                             </div>
                         </div>
 
@@ -327,36 +312,28 @@
                                 <p class="text-xs text-gray-500 font-bold uppercase tracking-wider mb-1">Standard Payout (Uncapped 1:1)</p>
                                 <p class="text-4xl font-black text-m3" id="m3-core-base">$0.00</p>
                             </div>
-                            <div class="mt-3 pt-3">
-                                <p class="text-sm font-medium text-gray-500 italic">*M3 pays linearly above 100% (No 2x accelerator).</p>
+                            <div class="border-t border-orange-200 mt-3 pt-3">
+                                <p class="text-sm font-medium text-gray-600 italic">*M3 pays linearly above 100% (No 2x accelerator).</p>
                             </div>
                         </div>
 
                         <!-- Accessories & StreamSaver -->
-                        <div class="bg-white rounded-2xl border border-gray-200 p-5 shadow-sm relative overflow-hidden">
-                            <div class="absolute top-0 right-0 bg-gray-200 text-gray-700 text-xs font-bold px-3 py-1 rounded-bl-lg">0.25 Credits</div>
+                        <div class="bg-orange-50 rounded-2xl border-2 border-orange-200 p-5 shadow-sm relative overflow-hidden">
+                            <div class="absolute top-0 right-0 bg-m3 text-white text-xs font-bold px-3 py-1 rounded-bl-lg">0.25 Credits</div>
                             <h4 class="text-xl font-bold text-gray-800 mb-1 mt-2">StreamSaver & Accessories</h4>
-                            <p class="text-xs text-gray-500 font-semibold mb-4 uppercase tracking-wider">Add-ons</p>
+                            <p class="text-xs text-orange-600 font-semibold mb-4 uppercase tracking-wider">Add-ons</p>
                             
                             <div class="mb-2">
                                 <p class="text-xs text-gray-500 font-bold uppercase tracking-wider mb-1">Standard Payout (Uncapped 1:1)</p>
-                                <p class="text-4xl font-black text-gray-800" id="m3-acc-base">$0.00</p>
+                                <p class="text-4xl font-black text-m3" id="m3-acc-base">$0.00</p>
                             </div>
-                            <div class="mt-3 pt-3">
-                                <p class="text-sm font-medium text-gray-500 italic">*Every bit counts toward your 100% goal.</p>
+                            <div class="border-t border-orange-200 mt-3 pt-3">
+                                <p class="text-sm font-medium text-gray-600 italic">*Every bit counts toward your 100% goal.</p>
                             </div>
                         </div>
 
                     </div>
                 </div>
-
-                <!-- Footer Note -->
-                <div class="mt-10 border-t border-gray-200 pt-4 text-center text-xs text-gray-400">
-                    <p>Calculations are estimates based on the 2026 Unified Sales Plan rules. 
-                    M1/M2 feature a 2x accelerator for achievement between 110.1% and 225%. 
-                    Private & Confidential.</p>
-                </div>
-
             </div>
         </div>
     </div>
@@ -484,12 +461,8 @@
                 styleTag.innerHTML = `
                     @page { size: 11in 8.5in; margin: 0.25in; }
                     @media print {
-                        html { font-size: 9.5px !important; }
-                        .print-container { max-width: 10.5in !important; }
-                        /* Compress vertical margins to guarantee 1-page fit on reduced height */
-                        .mb-10 { margin-bottom: 0.5rem !important; }
-                        .mb-6 { margin-bottom: 0.25rem !important; }
-                        .mt-10 { margin-top: 0.5rem !important; }
+                        html { font-size: 11.5px !important; }
+                        .print-container { max-width: 10.5in !important; margin: 0 auto; }
                     }
                 `;
             } else if (size === 'ledger') {
@@ -497,12 +470,8 @@
                 styleTag.innerHTML = `
                     @page { size: 17in 11in; margin: 0.25in; }
                     @media print {
-                        html { font-size: 14.5px !important; }
-                        .print-container { max-width: 16.5in !important; }
-                        /* Compress vertical margins to guarantee 1-page fit on reduced height */
-                        .mb-10 { margin-bottom: 0.5rem !important; }
-                        .mb-6 { margin-bottom: 0.25rem !important; }
-                        .mt-10 { margin-top: 0.5rem !important; }
+                        html { font-size: 17.5px !important; }
+                        .print-container { max-width: 16.5in !important; margin: 0 auto; }
                     }
                 `;
             }
