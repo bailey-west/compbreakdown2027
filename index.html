@@ -90,11 +90,11 @@
                 <div class="flex flex-col sm:flex-row gap-3 mt-4 md:mt-0">
                     <button onclick="printLayout('letter')" class="bg-gray-800 hover:bg-gray-900 text-white font-bold py-2.5 px-5 rounded-xl shadow-lg transition duration-200 flex items-center text-sm">
                         <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path></svg>
-                        Print Letter (8.5x11)
+                        Print Letter Landscape (11x8.5)
                     </button>
                     <button onclick="printLayout('ledger')" class="bg-xfinity hover:bg-purple-800 text-white font-bold py-2.5 px-5 rounded-xl shadow-lg transition duration-200 flex items-center text-sm">
                         <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path></svg>
-                        Print Ledger (11x17)
+                        Print Ledger Landscape (17x11)
                     </button>
                 </div>
             </div>
@@ -480,20 +480,29 @@
             }
             
             if (size === 'letter') {
+                // Configured for 11x8.5 Landscape
                 styleTag.innerHTML = `
-                    @page { size: 8.5in 11in; margin: 0.25in; }
+                    @page { size: 11in 8.5in; margin: 0.25in; }
                     @media print {
                         html { font-size: 9.5px !important; }
-                        .print-container { max-width: 8in !important; }
+                        .print-container { max-width: 10.5in !important; }
+                        /* Compress vertical margins to guarantee 1-page fit on reduced height */
+                        .mb-10 { margin-bottom: 0.5rem !important; }
+                        .mb-6 { margin-bottom: 0.25rem !important; }
+                        .mt-10 { margin-top: 0.5rem !important; }
                     }
                 `;
             } else if (size === 'ledger') {
-                // Configured for 11x17 portrait (Tabloid format)
+                // Configured for 17x11 Landscape
                 styleTag.innerHTML = `
-                    @page { size: 11in 17in; margin: 0.5in; }
+                    @page { size: 17in 11in; margin: 0.25in; }
                     @media print {
                         html { font-size: 14.5px !important; }
-                        .print-container { max-width: 10in !important; }
+                        .print-container { max-width: 16.5in !important; }
+                        /* Compress vertical margins to guarantee 1-page fit on reduced height */
+                        .mb-10 { margin-bottom: 0.5rem !important; }
+                        .mb-6 { margin-bottom: 0.25rem !important; }
+                        .mt-10 { margin-top: 0.5rem !important; }
                     }
                 `;
             }
