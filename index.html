@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2026 Unified Sales Plan - Per-Unit Calculator</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f3f4f6;
+            -webkit-print-color-adjust: exact;
+            print-color-adjust: exact;
+        }
+
+        /* Xfinity Custom Colors */
+        .text-xfinity { color: #6F2CFF; }
+        .bg-xfinity { background-color: #6F2CFF; }
+        .border-xfinity { border-color: #6F2CFF; }
+        
+        .bg-m1 { background-color: #6F2CFF; } /* Mobile */
+        .bg-m2 { background-color: #009688; } /* Internet */
+        .bg-m3 { background-color: #F97316; } /* All Other */
+
+        .text-m1 { color: #6F2CFF; }
+        .text-m2 { color: #009688; }
+        .text-m3 { color: #F97316; }
+
+        @media print {
+            body {
+                background-color: #ffffff;
+            }
+            .hide-on-print {
+                display: none !important;
+            }
+            .print-container {
+                width: 100%;
+                max-width: 100%;
+                margin: 0;
+                padding: 0;
+                box-shadow: none;
+            }
+            .page-break {
+                page-break-before: always;
+            }
+            .no-break {
+                page-break-inside: avoid;
+            }
+            /* Optimize for 11x17 or 8.5x11 Scaling */
+            .print-grid {
+                display: grid;
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+                gap: 1.5rem;
+            }
+            .print-full-width {
+                grid-column: span 2;
+            }
+        }
+    </style>
+</head>
+<body class="text-gray-800 p-4 md:p-8">
+
+    <div class="print-container max-w-7xl mx-auto">
+        
+        <!-- CONTROL PANEL (Hidden on Print) -->
+        <div class="hide-on-print bg-white rounded-2xl shadow-xl p-6 mb-8 border-t-4 border-xfinity">
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6">
+                <div>
+                    <h1 class="text-3xl font-extrabold text-gray-900 tracking-tight">Commission Flyer Generator</h1>
+                    <p class="text-gray-500 mt-1">Enter goals below to calculate per-unit payouts (Base & Accelerator).</p>
+                </div>
+                <button onclick="window.print()" class="mt-4 md:mt-0 bg-xfinity hover:bg-purple-800 text-white font-bold py-3 px-6 rounded-xl shadow-lg transition duration-200 flex items-center">
+                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path></svg>
+                    Print Flyer
+                </button>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6 bg-gray-50 p-5 rounded-xl border border-gray-200">
+                
+                <div>
+                    <label class="block text-sm font-bold text-gray-700 mb-2">Store Name</label>
+                    <input type="text" id="storeNameInput" value="" placeholder="e.g., Manchester, NH" class="w-full bg-white border border-gray-300 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-purple-500 font-semibold" oninput="updateStoreName()">
+                </div>
+
+                <div>
+                    <label class="block text-sm font-bold text-gray-700 mb-2">Role Setup</label>
+                    <select id="roleSelect" class="w-full bg-white border border-gray-300 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-purple-500 font-semibold" onchange="calculatePayouts()">
+                        <option value="rsc2">RSC2 / RSC2 Adv (TIC: $1,454.17)</option>
+                        <option value="rsc3">RSC3 Lead (TIC: $1,583.33)</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-bold text-gray-700 mb-2">M1 Mobile Goal</label>
+                    <div class="relative">
+                        <input type="number" id="m1Goal" value="0" class="w-full bg-white border border-gray-300 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-purple-500 font-bold text-xl text-purple-700" oninput="calculatePayouts()">
+                        <span class="absolute right-4 top-3 text-gray-400 font-medium">Credits</span>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-bold text-gray-700 mb-2">M2 Internet Goal</label>
+                    <div class="relative">
+                        <input type="number" id="m2Goal" value="0" class="w-full bg-white border border-gray-300 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-teal-500 font-bold text-xl text-teal-700" oninput="calculatePayouts()">
+                        <span class="absolute right-4 top-3 text-gray-400 font-medium">Credits</span>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-bold text-gray-700 mb-2">M3 All Other Goal</label>
+                    <div class="relative">
+                        <input type="number" id="m3Goal" value="0" class="w-full bg-white border border-gray-300 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-orange-500 font-bold text-xl text-orange-700" oninput="calculatePayouts()">
+                        <span class="absolute right-4 top-3 text-gray-400 font-medium">Credits</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- FLYER OUTPUT (Visible on Print and Screen) -->
+        <div id="flyerContainer" class="bg-white shadow-2xl rounded-2xl overflow-hidden print-container">
+            
+            <!-- Flyer Header -->
+            <header class="bg-gray-900 text-white p-6 md:p-8 flex justify-between items-center no-break">
+                <div>
+                    <h2 class="text-3xl md:text-5xl font-black tracking-tight uppercase">Performance Payouts</h2>
+                    <p class="text-lg md:text-xl mt-2 text-gray-300 font-medium"><span id="displayStoreName" class="text-purple-400 font-bold">[Enter Store Name]</span> | 2026 Unified Sales Plan</p>
+                </div>
+                <div class="text-right hidden md:block">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a3/Comcast_Logo.svg/1024px-Comcast_Logo.svg.png" onerror="this.style.display='none'" alt="Comcast" class="h-10 opacity-80 filter invert brightness-0">
+                </div>
+            </header>
+
+            <div class="p-6 md:p-8">
+                
+                <!-- M1: MOBILE SECTION -->
+                <div class="mb-10 no-break">
+                    <div class="flex items-center mb-6">
+                        <div class="bg-m1 text-white text-3xl font-black px-6 py-3 rounded-xl mr-4 shadow-md">M1</div>
+                        <div>
+                            <h3 class="text-3xl font-black text-gray-800 uppercase tracking-tight">Mobile (XM)</h3>
+                            <p class="text-gray-500 font-semibold">Goal: <span id="displayM1Goal" class="text-m1">0</span> Credits • 60% of TIC</p>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4 print-grid">
+                        
+                        <!-- Mobile Plus -->
+                        <div class="bg-purple-50 rounded-2xl border-2 border-purple-200 p-5 shadow-sm relative overflow-hidden">
+                            <div class="absolute top-0 right-0 bg-m1 text-white text-xs font-bold px-3 py-1 rounded-bl-lg">1.25 Credits</div>
+                            <h4 class="text-xl font-bold text-gray-800 mb-1 mt-2">Mobile Plus</h4>
+                            <p class="text-xs text-purple-600 font-semibold mb-4 uppercase tracking-wider">Premium Target</p>
+                            
+                            <div class="mb-2">
+                                <p class="text-xs text-gray-500 font-bold uppercase tracking-wider mb-1">Accelerator Payout (110%+)</p>
+                                <p class="text-4xl font-black text-m1" id="m1-plus-accel">$0.00</p>
+                            </div>
+                            <div class="border-t border-purple-200 mt-3 pt-3">
+                                <p class="text-sm font-semibold text-gray-600">80-110% Payout Window: <span id="m1-plus-base" class="text-gray-800 font-bold">$0.00</span></p>
+                            </div>
+                        </div>
+
+                        <!-- All Other Mobile -->
+                        <div class="bg-white rounded-2xl border border-gray-200 p-5 shadow-sm relative overflow-hidden">
+                            <div class="absolute top-0 right-0 bg-gray-200 text-gray-700 text-xs font-bold px-3 py-1 rounded-bl-lg">1.0 Credits</div>
+                            <h4 class="text-xl font-bold text-gray-800 mb-1 mt-2">All Other Mobile</h4>
+                            <p class="text-xs text-gray-500 font-semibold mb-4 uppercase tracking-wider">Standard Lines & Wablets</p>
+                            
+                            <div class="mb-2">
+                                <p class="text-xs text-gray-500 font-bold uppercase tracking-wider mb-1">Accelerator Payout (110%+)</p>
+                                <p class="text-4xl font-black text-gray-800" id="m1-other-accel">$0.00</p>
+                            </div>
+                            <div class="border-t border-gray-100 mt-3 pt-3">
+                                <p class="text-sm font-semibold text-gray-500">80-110% Payout Window: <span id="m1-other-base" class="text-gray-700 font-bold">$0.00</span></p>
+                            </div>
+                        </div>
+
+                        <!-- Upgrades -->
+                        <div class="bg-white rounded-2xl border border-gray-200 p-5 shadow-sm relative overflow-hidden">
+                            <div class="absolute top-0 right-0 bg-gray-200 text-gray-700 text-xs font-bold px-3 py-1 rounded-bl-lg">0.50 Credits</div>
+                            <h4 class="text-xl font-bold text-gray-800 mb-1 mt-2">Device Upgrades</h4>
+                            <p class="text-xs text-gray-500 font-semibold mb-4 uppercase tracking-wider">Hardware</p>
+                            
+                            <div class="mb-2">
+                                <p class="text-xs text-gray-500 font-bold uppercase tracking-wider mb-1">Accelerator Payout (110%+)</p>
+                                <p class="text-3xl font-black text-gray-800" id="m1-upgrade-accel">$0.00</p>
+                            </div>
+                            <div class="border-t border-gray-100 mt-3 pt-3">
+                                <p class="text-sm font-semibold text-gray-500">80-110% Payout Window: <span id="m1-upgrade-base" class="text-gray-700 font-bold">$0.00</span></p>
+                            </div>
+                        </div>
+
+                        <!-- Tier Upgrades -->
+                        <div class="bg-white rounded-2xl border border-gray-200 p-5 shadow-sm relative overflow-hidden">
+                            <div class="absolute top-0 right-0 bg-gray-200 text-gray-700 text-xs font-bold px-3 py-1 rounded-bl-lg">0.25 Credits</div>
+                            <h4 class="text-lg font-bold text-gray-800 mb-1 mt-2 leading-tight">Tier Upgrades /<br>XM Care</h4>
+                            <p class="text-xs text-gray-500 font-semibold mb-2 uppercase tracking-wider">Existing CX</p>
+                            
+                            <div class="mb-2 mt-2">
+                                <p class="text-xs text-gray-500 font-bold uppercase tracking-wider mb-1">Accelerator (110%+)</p>
+                                <p class="text-3xl font-black text-gray-800" id="m1-tier-accel">$0.00</p>
+                            </div>
+                            <div class="border-t border-gray-100 mt-3 pt-3">
+                                <p class="text-sm font-semibold text-gray-500">80-110% Payout Window: <span id="m1-tier-base" class="text-gray-700 font-bold">$0.00</span></p>
+                            </div>
+                        </div>
+
+                        <!-- Double Ups -->
+                        <div class="bg-indigo-50 rounded-2xl border-2 border-indigo-200 p-5 shadow-sm relative overflow-hidden">
+                            <div class="absolute top-0 right-0 bg-indigo-500 text-white text-xs font-bold px-3 py-1 rounded-bl-lg">0.75 Credits</div>
+                            <h4 class="text-xl font-bold text-gray-800 mb-1 mt-2">Double Ups</h4>
+                            <p class="text-xs text-indigo-600 font-semibold mb-4 uppercase tracking-wider">Device + Tier</p>
+                            
+                            <div class="mb-2">
+                                <p class="text-xs text-gray-500 font-bold uppercase tracking-wider mb-1">Accelerator Payout (110%+)</p>
+                                <p class="text-3xl font-black text-indigo-700" id="m1-double-accel">$0.00</p>
+                            </div>
+                            <div class="border-t border-indigo-200 mt-3 pt-3">
+                                <p class="text-sm font-semibold text-gray-600">80-110% Payout Window: <span id="m1-double-base" class="text-gray-800 font-bold">$0.00</span></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- M2: INTERNET SECTION -->
+                <div class="mb-10 no-break">
+                    <div class="flex items-center mb-6">
+                        <div class="bg-m2 text-white text-3xl font-black px-6 py-3 rounded-xl mr-4 shadow-md">M2</div>
+                        <div>
+                            <h3 class="text-3xl font-black text-gray-800 uppercase tracking-tight">Internet</h3>
+                            <p class="text-gray-500 font-semibold">Goal: <span id="displayM2Goal" class="text-m2">0</span> Credits • 20% of TIC</p>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 print-grid">
+                        
+                        <!-- Gig Internet -->
+                        <div class="bg-teal-50 rounded-2xl border-2 border-teal-200 p-5 shadow-sm relative overflow-hidden">
+                            <div class="absolute top-0 right-0 bg-m2 text-white text-xs font-bold px-3 py-1 rounded-bl-lg">1.25 Credits</div>
+                            <h4 class="text-xl font-bold text-gray-800 mb-1 mt-2">Gig Internet</h4>
+                            <p class="text-xs text-teal-600 font-semibold mb-4 uppercase tracking-wider">Premium Target</p>
+                            
+                            <div class="mb-2">
+                                <p class="text-xs text-gray-500 font-bold uppercase tracking-wider mb-1">Accelerator Payout (110%+)</p>
+                                <p class="text-4xl font-black text-m2" id="m2-gig-accel">$0.00</p>
+                            </div>
+                            <div class="border-t border-teal-200 mt-3 pt-3">
+                                <p class="text-sm font-semibold text-gray-600">80-110% Payout Window: <span id="m2-gig-base" class="text-gray-800 font-bold">$0.00</span></p>
+                            </div>
+                        </div>
+
+                        <!-- All Other Internet -->
+                        <div class="bg-white rounded-2xl border border-gray-200 p-5 shadow-sm relative overflow-hidden">
+                            <div class="absolute top-0 right-0 bg-gray-200 text-gray-700 text-xs font-bold px-3 py-1 rounded-bl-lg">1.0 Credits</div>
+                            <h4 class="text-xl font-bold text-gray-800 mb-1 mt-2">All Other Internet</h4>
+                            <p class="text-xs text-gray-500 font-semibold mb-4 uppercase tracking-wider">Standard Speed</p>
+                            
+                            <div class="mb-2">
+                                <p class="text-xs text-gray-500 font-bold uppercase tracking-wider mb-1">Accelerator Payout (110%+)</p>
+                                <p class="text-4xl font-black text-gray-800" id="m2-other-accel">$0.00</p>
+                            </div>
+                            <div class="border-t border-gray-100 mt-3 pt-3">
+                                <p class="text-sm font-semibold text-gray-500">80-110% Payout Window: <span id="m2-other-base" class="text-gray-700 font-bold">$0.00</span></p>
+                            </div>
+                        </div>
+
+                        <!-- Tier Upgrades / Next-Gen -->
+                        <div class="bg-white rounded-2xl border border-gray-200 p-5 shadow-sm relative overflow-hidden">
+                            <div class="absolute top-0 right-0 bg-gray-200 text-gray-700 text-xs font-bold px-3 py-1 rounded-bl-lg">0.25 Credits</div>
+                            <h4 class="text-lg font-bold text-gray-800 mb-1 mt-2 leading-tight">Tier Upgrades /<br>Next-Gen Conv.</h4>
+                            <p class="text-xs text-gray-500 font-semibold mb-2 uppercase tracking-wider">Existing CX & XPro</p>
+                            
+                            <div class="mb-2 mt-2">
+                                <p class="text-xs text-gray-500 font-bold uppercase tracking-wider mb-1">Accelerator (110%+)</p>
+                                <p class="text-3xl font-black text-gray-800" id="m2-tier-accel">$0.00</p>
+                            </div>
+                            <div class="border-t border-gray-100 mt-3 pt-3">
+                                <p class="text-sm font-semibold text-gray-500">80-110% Payout Window: <span id="m2-tier-base" class="text-gray-700 font-bold">$0.00</span></p>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- M3: ALL OTHER SECTION -->
+                <div class="mb-10 no-break">
+                    <div class="flex items-center mb-6">
+                        <div class="bg-m3 text-white text-3xl font-black px-6 py-3 rounded-xl mr-4 shadow-md">M3</div>
+                        <div>
+                            <h3 class="text-3xl font-black text-gray-800 uppercase tracking-tight">All Other</h3>
+                            <p class="text-gray-500 font-semibold">Goal: <span id="displayM3Goal" class="text-m3">0</span> Credits • 20% of TIC</p>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 print-grid">
+                        
+                        <!-- Core Video/Home/Voice -->
+                        <div class="bg-orange-50 rounded-2xl border-2 border-orange-200 p-5 shadow-sm relative overflow-hidden">
+                            <div class="absolute top-0 right-0 bg-m3 text-white text-xs font-bold px-3 py-1 rounded-bl-lg">1.0 Credits</div>
+                            <h4 class="text-xl font-bold text-gray-800 mb-1 mt-2">Entertainment, Home & Voice</h4>
+                            <p class="text-xs text-orange-600 font-semibold mb-4 uppercase tracking-wider">Video & Connected Home</p>
+                            
+                            <div class="mb-2">
+                                <p class="text-xs text-gray-500 font-bold uppercase tracking-wider mb-1">Standard Payout (Uncapped 1:1)</p>
+                                <p class="text-4xl font-black text-m3" id="m3-core-base">$0.00</p>
+                            </div>
+                            <div class="mt-3 pt-3">
+                                <p class="text-sm font-medium text-gray-500 italic">*M3 pays linearly above 100% (No 2x accelerator).</p>
+                            </div>
+                        </div>
+
+                        <!-- Accessories & StreamSaver -->
+                        <div class="bg-white rounded-2xl border border-gray-200 p-5 shadow-sm relative overflow-hidden">
+                            <div class="absolute top-0 right-0 bg-gray-200 text-gray-700 text-xs font-bold px-3 py-1 rounded-bl-lg">0.25 Credits</div>
+                            <h4 class="text-xl font-bold text-gray-800 mb-1 mt-2">StreamSaver & Accessories</h4>
+                            <p class="text-xs text-gray-500 font-semibold mb-4 uppercase tracking-wider">Add-ons</p>
+                            
+                            <div class="mb-2">
+                                <p class="text-xs text-gray-500 font-bold uppercase tracking-wider mb-1">Standard Payout (Uncapped 1:1)</p>
+                                <p class="text-4xl font-black text-gray-800" id="m3-acc-base">$0.00</p>
+                            </div>
+                            <div class="mt-3 pt-3">
+                                <p class="text-sm font-medium text-gray-500 italic">*Every bit counts toward your 100% goal.</p>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- Footer Note -->
+                <div class="mt-10 border-t border-gray-200 pt-4 text-center text-xs text-gray-400">
+                    <p>Calculations are estimates based on the 2026 Unified Sales Plan rules. 
+                    M1/M2 feature a 2x accelerator for achievement between 110.1% and 225%. 
+                    Private & Confidential.</p>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // TIC Data Definitions
+        const TIC_DATA = {
+            rsc2: {
+                m1: 872.50,
+                m2: 290.83,
+                m3: 290.83
+            },
+            rsc3: {
+                m1: 950.00,
+                m2: 316.67,
+                m3: 316.67
+            }
+        };
+
+        // Currency Formatter
+        const formatter = new Intl.NumberFormat('en-US', {
+            style: 'currency',
+            currency: 'USD',
+            minimumFractionDigits: 2
+        });
+
+        function updateStoreName() {
+            const storeName = document.getElementById('storeNameInput').value;
+            document.getElementById('displayStoreName').innerText = storeName || "[Enter Store Name]";
+        }
+
+        function calculatePayouts() {
+            // Get inputs
+            const role = document.getElementById('roleSelect').value;
+            const m1Goal = parseFloat(document.getElementById('m1Goal').value) || 0;
+            const m2Goal = parseFloat(document.getElementById('m2Goal').value) || 0;
+            const m3Goal = parseFloat(document.getElementById('m3Goal').value) || 0;
+
+            // Update display goals in the flyer
+            document.getElementById('displayM1Goal').innerText = m1Goal;
+            document.getElementById('displayM2Goal').innerText = m2Goal;
+            document.getElementById('displayM3Goal').innerText = m3Goal;
+
+            const tics = TIC_DATA[role];
+
+            // Helper function to match the exact business logic:
+            // 1. Calculate % added to Goal: (Credit Value / Goal)
+            // 2. Calculate % added to TIC: (% to Goal * Payout Curve Modifier)
+            //    (Base 80-110% modifier is 1. Accel 110-225% modifier is 2).
+            // 3. Calculate Dollar Payout: (% to TIC * TIC Dollar Amount)
+            function getUnitPayout(creditValue, goal, ticAmount, curveModifier) {
+                if (goal <= 0) return 0;
+                const percentOfGoal = creditValue / goal;
+                const percentOfTic = percentOfGoal * curveModifier;
+                return percentOfTic * ticAmount;
+            }
+
+            // ---------------------------------------------------------
+            // M1 Calculations (Mobile)
+            // ---------------------------------------------------------
+            // M1 Plus (1.25 Credits)
+            document.getElementById('m1-plus-base').innerText = formatter.format(getUnitPayout(1.25, m1Goal, tics.m1, 1));
+            document.getElementById('m1-plus-accel').innerText = formatter.format(getUnitPayout(1.25, m1Goal, tics.m1, 2));
+
+            // M1 Other / Wablets (1.0 Credits)
+            document.getElementById('m1-other-base').innerText = formatter.format(getUnitPayout(1.0, m1Goal, tics.m1, 1));
+            document.getElementById('m1-other-accel').innerText = formatter.format(getUnitPayout(1.0, m1Goal, tics.m1, 2));
+
+            // M1 Upgrades (0.50 Credits)
+            document.getElementById('m1-upgrade-base').innerText = formatter.format(getUnitPayout(0.50, m1Goal, tics.m1, 1));
+            document.getElementById('m1-upgrade-accel').innerText = formatter.format(getUnitPayout(0.50, m1Goal, tics.m1, 2));
+
+            // M1 Tier/XMC (0.25 Credits)
+            document.getElementById('m1-tier-base').innerText = formatter.format(getUnitPayout(0.25, m1Goal, tics.m1, 1));
+            document.getElementById('m1-tier-accel').innerText = formatter.format(getUnitPayout(0.25, m1Goal, tics.m1, 2));
+
+            // M1 Double Up (0.75 Credits)
+            document.getElementById('m1-double-base').innerText = formatter.format(getUnitPayout(0.75, m1Goal, tics.m1, 1));
+            document.getElementById('m1-double-accel').innerText = formatter.format(getUnitPayout(0.75, m1Goal, tics.m1, 2));
+
+            // ---------------------------------------------------------
+            // M2 Calculations (Internet)
+            // ---------------------------------------------------------
+            // M2 Gig (1.25 Credits)
+            document.getElementById('m2-gig-base').innerText = formatter.format(getUnitPayout(1.25, m2Goal, tics.m2, 1));
+            document.getElementById('m2-gig-accel').innerText = formatter.format(getUnitPayout(1.25, m2Goal, tics.m2, 2));
+
+            // M2 Other (1.0 Credits)
+            document.getElementById('m2-other-base').innerText = formatter.format(getUnitPayout(1.0, m2Goal, tics.m2, 1));
+            document.getElementById('m2-other-accel').innerText = formatter.format(getUnitPayout(1.0, m2Goal, tics.m2, 2));
+
+            // M2 Tier/NextGen (0.25 Credits)
+            document.getElementById('m2-tier-base').innerText = formatter.format(getUnitPayout(0.25, m2Goal, tics.m2, 1));
+            document.getElementById('m2-tier-accel').innerText = formatter.format(getUnitPayout(0.25, m2Goal, tics.m2, 2));
+
+            // ---------------------------------------------------------
+            // M3 Calculations (All Other)
+            // ---------------------------------------------------------
+            // M3 does not have a 2x accelerator, it pays 1:1 above 100%.
+            
+            // M3 Core (1.0 Credits)
+            document.getElementById('m3-core-base').innerText = formatter.format(getUnitPayout(1.0, m3Goal, tics.m3, 1));
+
+            // M3 Accessories (0.25 Credits)
+            document.getElementById('m3-acc-base').innerText = formatter.format(getUnitPayout(0.25, m3Goal, tics.m3, 1));
+        }
+
+        // Initialize on load
+        window.onload = () => {
+            updateStoreName();
+            calculatePayouts();
+        };
+    </script>
+</body>
+</html>
