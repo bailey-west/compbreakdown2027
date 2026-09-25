@@ -29,8 +29,14 @@
         .text-m3 { color: #F97316; }
 
         @media print {
-            body {
+            @page {
+                margin: 0.25in; /* Maximize printable area */
+            }
+            html, body {
                 background-color: #ffffff;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+                font-size: 11px !important; /* Scale down all rem units */
             }
             .hide-on-print {
                 display: none !important;
@@ -38,24 +44,36 @@
             .print-container {
                 width: 100%;
                 max-width: 100%;
-                margin: 0;
-                padding: 0;
-                box-shadow: none;
+                margin: 0 !important;
+                padding: 0 !important;
+                box-shadow: none !important;
+                border: none !important;
+                border-radius: 0 !important;
             }
+            
+            /* Force grids into single rows to eliminate vertical stacking */
+            .print-grid-m1 { display: grid !important; grid-template-columns: repeat(5, 1fr) !important; gap: 0.5rem !important; }
+            .print-grid-m2 { display: grid !important; grid-template-columns: repeat(3, 1fr) !important; gap: 0.5rem !important; }
+            .print-grid-m3 { display: grid !important; grid-template-columns: repeat(2, 1fr) !important; gap: 0.5rem !important; }
+
+            /* Strip out excessive margins and paddings for the print layout */
+            header { padding: 1rem !important; }
+            .p-6, .md\:p-8 { padding: 1rem !important; }
+            .mb-10 { margin-bottom: 1rem !important; }
+            .mb-6 { margin-bottom: 0.5rem !important; }
+            
+            /* Shrink Cards */
+            .p-5 { padding: 0.5rem !important; }
+            h4 { font-size: 1.05rem !important; margin-bottom: 0 !important; margin-top: 0.25rem !important; }
+            p.text-xs { margin-bottom: 0.25rem !important; font-size: 0.65rem !important; }
+            .text-4xl, .text-3xl { font-size: 1.5rem !important; line-height: 1 !important; }
+            .border-t { margin-top: 0.25rem !important; padding-top: 0.25rem !important; }
+
             .page-break {
                 page-break-before: always;
             }
             .no-break {
                 page-break-inside: avoid;
-            }
-            /* Optimize for 11x17 or 8.5x11 Scaling */
-            .print-grid {
-                display: grid;
-                grid-template-columns: repeat(2, minmax(0, 1fr));
-                gap: 1.5rem;
-            }
-            .print-full-width {
-                grid-column: span 2;
             }
         }
     </style>
@@ -144,7 +162,7 @@
                         </div>
                     </div>
 
-                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4 print-grid">
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4 print-grid-m1">
                         
                         <!-- Mobile Plus -->
                         <div class="bg-purple-50 rounded-2xl border-2 border-purple-200 p-5 shadow-sm relative overflow-hidden">
@@ -233,7 +251,7 @@
                         </div>
                     </div>
 
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 print-grid">
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 print-grid-m2">
                         
                         <!-- Gig Internet -->
                         <div class="bg-teal-50 rounded-2xl border-2 border-teal-200 p-5 shadow-sm relative overflow-hidden">
@@ -293,7 +311,7 @@
                         </div>
                     </div>
 
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 print-grid">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 print-grid-m3">
                         
                         <!-- Core Video/Home/Voice -->
                         <div class="bg-orange-50 rounded-2xl border-2 border-orange-200 p-5 shadow-sm relative overflow-hidden">
