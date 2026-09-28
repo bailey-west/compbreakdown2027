@@ -7,14 +7,13 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @media print {
-            @page { size: portrait; margin: 0.2in; }
+            @page { size: portrait; margin: 0.25in; }
             body { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
             .no-print { display: none !important; }
             /* Default Letter scale */
             html { font-size: 11px; } 
             /* Compress gaps and padding for print */
             .print-tight { gap: 0.25rem !important; padding: 0.25rem !important; }
-            .print-p-2 { padding: 0.5rem !important; }
         }
         .vertical-text {
             writing-mode: vertical-rl;
@@ -28,118 +27,118 @@
 <body class="bg-gray-100 font-sans p-4">
 
     <!-- Control Panel (Hidden on Print) -->
-    <div class="no-print bg-white p-6 rounded-lg shadow-md mb-6 max-w-4xl mx-auto">
-        <h2 class="text-xl font-bold mb-4">Calculator Settings</h2>
-        <div class="grid grid-cols-2 md:grid-cols-5 gap-4 items-end">
+    <div class="no-print bg-white p-4 rounded-lg shadow-md mb-4 max-w-4xl mx-auto border-b-4 border-gray-300">
+        <h2 class="text-lg font-bold mb-3">Calculator Settings</h2>
+        <div class="grid grid-cols-2 md:grid-cols-5 gap-3 items-end">
             <div>
-                <label class="block text-sm font-bold text-gray-700">Store Name</label>
-                <input type="text" id="storeName" class="w-full border p-2 rounded" placeholder="e.g. Manchester">
+                <label class="block text-xs font-bold text-gray-700">Store Name</label>
+                <input type="text" id="storeName" class="w-full border p-1.5 rounded text-sm" placeholder="e.g. Manchester">
             </div>
             <div>
-                <label class="block text-sm font-bold text-gray-700">Role</label>
-                <select id="roleSelect" class="w-full border p-2 rounded">
+                <label class="block text-xs font-bold text-gray-700">Role</label>
+                <select id="roleSelect" class="w-full border p-1.5 rounded text-sm">
                     <option value="RSC2">RSC2</option>
                     <option value="RSC3">RSC3</option>
                 </select>
             </div>
             <div>
-                <label class="block text-sm font-bold text-purple-700">M1 Goal</label>
-                <input type="number" id="m1Goal" class="w-full border p-2 rounded" value="0">
+                <label class="block text-xs font-bold text-purple-700">M1 Goal</label>
+                <input type="number" id="m1Goal" class="w-full border p-1.5 rounded text-sm" value="0">
             </div>
             <div>
-                <label class="block text-sm font-bold text-teal-700">M2 Goal</label>
-                <input type="number" id="m2Goal" class="w-full border p-2 rounded" value="0">
+                <label class="block text-xs font-bold text-teal-700">M2 Goal</label>
+                <input type="number" id="m2Goal" class="w-full border p-1.5 rounded text-sm" value="0">
             </div>
             <div>
-                <label class="block text-sm font-bold text-orange-600">M3 Goal</label>
-                <input type="number" id="m3Goal" class="w-full border p-2 rounded" value="0">
+                <label class="block text-xs font-bold text-orange-600">M3 Goal</label>
+                <input type="number" id="m3Goal" class="w-full border p-1.5 rounded text-sm" value="0">
             </div>
         </div>
-        <div class="mt-4 flex gap-4">
-            <button onclick="printFlyer('letter')" class="bg-blue-600 text-white px-4 py-2 rounded font-bold hover:bg-blue-700">Print Letter (8.5x11)</button>
-            <button onclick="printFlyer('ledger')" class="bg-gray-800 text-white px-4 py-2 rounded font-bold hover:bg-gray-900">Print Ledger (11x17)</button>
+        <div class="mt-4 flex gap-3">
+            <button onclick="printFlyer('letter')" class="bg-blue-600 text-white px-4 py-1.5 rounded text-sm font-bold hover:bg-blue-700">Print Letter (8.5x11)</button>
+            <button onclick="printFlyer('ledger')" class="bg-gray-800 text-white px-4 py-1.5 rounded text-sm font-bold hover:bg-gray-900">Print Ledger (11x17)</button>
         </div>
     </div>
 
     <!-- Printable Flyer -->
-    <div id="flyer" class="max-w-5xl mx-auto bg-white p-4 shadow-lg border border-gray-200 print-tight">
+    <div id="flyer" class="max-w-4xl mx-auto bg-white p-3 shadow-lg border border-gray-200 print-tight">
         
         <!-- Header -->
-        <div class="flex justify-between items-end border-b-4 border-gray-800 pb-2 mb-4 print-tight">
-            <h1 class="text-3xl font-black uppercase tracking-tight text-gray-900">
+        <div class="flex justify-between items-end border-b-2 border-gray-800 pb-1 mb-2 print-tight">
+            <h1 class="text-2xl font-black uppercase tracking-tight text-gray-900">
                 <span id="displayStoreName"></span> <span id="displayFiscalMonth" class="text-gray-500"></span>
             </h1>
             <div class="text-right">
-                <p class="text-sm font-bold text-gray-600">PERFORMANCE PAYOUTS</p>
+                <p class="text-xs font-bold text-gray-600 tracking-widest uppercase">Performance Payouts</p>
             </div>
         </div>
 
-        <!-- M1 MOBILE (3-col grid, 2 rows) -->
-        <div class="flex mb-3 rounded-lg overflow-hidden border-2 border-purple-600 print-tight">
-            <div class="bg-purple-600 text-white flex flex-col justify-center items-center w-12 shrink-0">
-                <span class="vertical-text font-black text-xl tracking-widest">MOBILE</span>
-                <span class="text-xs font-bold mt-2">M1</span>
+        <!-- M1 MOBILE (3-col grid wrapping to 2 on next line) -->
+        <div class="flex mb-2 rounded-lg overflow-hidden border-2 border-purple-600 print-tight">
+            <div class="bg-purple-600 text-white flex flex-col justify-center items-center w-10 shrink-0">
+                <span class="vertical-text font-black text-lg tracking-widest">MOBILE</span>
+                <span class="text-[10px] font-bold mt-2">M1</span>
             </div>
-            <div class="p-2 w-full bg-purple-50 print-tight">
-                <div class="grid grid-cols-3 gap-2 h-full print-tight">
+            <div class="p-1.5 w-full bg-purple-50 print-tight">
+                <div class="grid grid-cols-3 gap-1.5 h-full print-tight">
                     <!-- Mobile Plus -->
-                    <div class="bg-purple-100 border border-purple-200 p-3 rounded flex flex-col justify-between print-p-2">
-                        <div class="flex justify-between items-start">
-                            <h3 class="font-bold text-purple-900 text-lg leading-tight">Mobile Plus</h3>
-                            <span class="bg-purple-600 text-white text-xs font-bold px-2 py-1 rounded">1.25 Credits</span>
+                    <div class="bg-purple-100 border border-purple-200 p-2 rounded flex flex-col justify-between">
+                        <div class="flex justify-between items-start mb-1">
+                            <h3 class="font-bold text-purple-900 text-sm leading-none">Mobile Plus</h3>
+                            <span class="bg-purple-600 text-white text-[10px] font-bold px-1.5 py-0.5 rounded">1.25 Credits</span>
                         </div>
-                        <div class="mt-2">
-                            <p class="text-xs font-bold text-purple-700 uppercase">Accelerator (110%+)</p>
-                            <p class="text-4xl font-black text-purple-900 leading-none my-1" id="m1_plus_accel">$0.00</p>
-                            <p class="text-xs text-purple-800 font-semibold">80-110% Window: <span id="m1_plus_base">$0.00</span></p>
+                        <div>
+                            <p class="text-[10px] font-bold text-purple-700 uppercase leading-none">Accelerator (110%+)</p>
+                            <p class="text-3xl font-black text-purple-900 leading-none mt-1 mb-1" id="m1_plus_accel">$0.00</p>
+                            <p class="text-[10px] text-purple-800 font-semibold leading-none">80-110% Window: <span id="m1_plus_base">$0.00</span></p>
                         </div>
                     </div>
                     <!-- All Other Mobile -->
-                    <div class="bg-purple-100 border border-purple-200 p-3 rounded flex flex-col justify-between print-p-2">
-                        <div class="flex justify-between items-start">
-                            <h3 class="font-bold text-purple-900 text-lg leading-tight">All Other Mobile<br><span class="text-sm font-normal text-purple-700">Incl. Wablets</span></h3>
-                            <span class="bg-purple-600 text-white text-xs font-bold px-2 py-1 rounded">1.0 Credits</span>
+                    <div class="bg-purple-100 border border-purple-200 p-2 rounded flex flex-col justify-between">
+                        <div class="flex justify-between items-start mb-1">
+                            <h3 class="font-bold text-purple-900 text-sm leading-tight">All Other Mobile<br><span class="text-[10px] font-normal text-purple-700">Incl. Wablets</span></h3>
+                            <span class="bg-purple-600 text-white text-[10px] font-bold px-1.5 py-0.5 rounded">1.0 Credits</span>
                         </div>
-                        <div class="mt-2">
-                            <p class="text-xs font-bold text-purple-700 uppercase">Accelerator (110%+)</p>
-                            <p class="text-4xl font-black text-purple-900 leading-none my-1" id="m1_other_accel">$0.00</p>
-                            <p class="text-xs text-purple-800 font-semibold">80-110% Window: <span id="m1_other_base">$0.00</span></p>
+                        <div>
+                            <p class="text-[10px] font-bold text-purple-700 uppercase leading-none">Accelerator (110%+)</p>
+                            <p class="text-3xl font-black text-purple-900 leading-none mt-1 mb-1" id="m1_other_accel">$0.00</p>
+                            <p class="text-[10px] text-purple-800 font-semibold leading-none">80-110% Window: <span id="m1_other_base">$0.00</span></p>
                         </div>
                     </div>
                     <!-- Double Ups -->
-                    <div class="bg-purple-100 border border-purple-200 p-3 rounded flex flex-col justify-between print-p-2">
-                        <div class="flex justify-between items-start">
-                            <h3 class="font-bold text-purple-900 text-lg leading-tight">Double Ups<br><span class="text-sm font-normal text-purple-700">Device + Tier</span></h3>
-                            <span class="bg-purple-600 text-white text-xs font-bold px-2 py-1 rounded">0.75 Credits</span>
+                    <div class="bg-purple-100 border border-purple-200 p-2 rounded flex flex-col justify-between">
+                        <div class="flex justify-between items-start mb-1">
+                            <h3 class="font-bold text-purple-900 text-sm leading-tight">Double Ups<br><span class="text-[10px] font-normal text-purple-700">Device + Tier</span></h3>
+                            <span class="bg-purple-600 text-white text-[10px] font-bold px-1.5 py-0.5 rounded">0.75 Credits</span>
                         </div>
-                        <div class="mt-2">
-                            <p class="text-xs font-bold text-purple-700 uppercase">Accelerator (110%+)</p>
-                            <p class="text-4xl font-black text-purple-900 leading-none my-1" id="m1_double_accel">$0.00</p>
-                            <p class="text-xs text-purple-800 font-semibold">80-110% Window: <span id="m1_double_base">$0.00</span></p>
+                        <div>
+                            <p class="text-[10px] font-bold text-purple-700 uppercase leading-none">Accelerator (110%+)</p>
+                            <p class="text-3xl font-black text-purple-900 leading-none mt-1 mb-1" id="m1_double_accel">$0.00</p>
+                            <p class="text-[10px] text-purple-800 font-semibold leading-none">80-110% Window: <span id="m1_double_base">$0.00</span></p>
                         </div>
                     </div>
                     <!-- Device Upgrades -->
-                    <div class="bg-purple-100 border border-purple-200 p-3 rounded flex flex-col justify-between print-p-2">
-                        <div class="flex justify-between items-start">
-                            <h3 class="font-bold text-purple-900 text-lg leading-tight">Device Upgrades</h3>
-                            <span class="bg-purple-600 text-white text-xs font-bold px-2 py-1 rounded">0.50 Credits</span>
+                    <div class="bg-purple-100 border border-purple-200 p-2 rounded flex flex-col justify-between">
+                        <div class="flex justify-between items-start mb-1">
+                            <h3 class="font-bold text-purple-900 text-sm leading-none">Device Upgrades</h3>
+                            <span class="bg-purple-600 text-white text-[10px] font-bold px-1.5 py-0.5 rounded">0.50 Credits</span>
                         </div>
-                        <div class="mt-2">
-                            <p class="text-xs font-bold text-purple-700 uppercase">Accelerator (110%+)</p>
-                            <p class="text-4xl font-black text-purple-900 leading-none my-1" id="m1_device_accel">$0.00</p>
-                            <p class="text-xs text-purple-800 font-semibold">80-110% Window: <span id="m1_device_base">$0.00</span></p>
+                        <div>
+                            <p class="text-[10px] font-bold text-purple-700 uppercase leading-none">Accelerator (110%+)</p>
+                            <p class="text-3xl font-black text-purple-900 leading-none mt-1 mb-1" id="m1_device_accel">$0.00</p>
+                            <p class="text-[10px] text-purple-800 font-semibold leading-none">80-110% Window: <span id="m1_device_base">$0.00</span></p>
                         </div>
                     </div>
                     <!-- Tier Upgrades / XMC -->
-                    <div class="bg-purple-100 border border-purple-200 p-3 rounded flex flex-col justify-between print-p-2">
-                        <div class="flex justify-between items-start">
-                            <h3 class="font-bold text-purple-900 text-lg leading-tight">Tier Upgrade / XMC</h3>
-                            <span class="bg-purple-600 text-white text-xs font-bold px-2 py-1 rounded">0.25 Credits</span>
+                    <div class="bg-purple-100 border border-purple-200 p-2 rounded flex flex-col justify-between">
+                        <div class="flex justify-between items-start mb-1">
+                            <h3 class="font-bold text-purple-900 text-sm leading-tight">Tier Upgrade / XMC</h3>
+                            <span class="bg-purple-600 text-white text-[10px] font-bold px-1.5 py-0.5 rounded">0.25 Credits</span>
                         </div>
-                        <div class="mt-2">
-                            <p class="text-xs font-bold text-purple-700 uppercase">Accelerator (110%+)</p>
-                            <p class="text-4xl font-black text-purple-900 leading-none my-1" id="m1_tier_accel">$0.00</p>
-                            <p class="text-xs text-purple-800 font-semibold">80-110% Window: <span id="m1_tier_base">$0.00</span></p>
+                        <div>
+                            <p class="text-[10px] font-bold text-purple-700 uppercase leading-none">Accelerator (110%+)</p>
+                            <p class="text-3xl font-black text-purple-900 leading-none mt-1 mb-1" id="m1_tier_accel">$0.00</p>
+                            <p class="text-[10px] text-purple-800 font-semibold leading-none">80-110% Window: <span id="m1_tier_base">$0.00</span></p>
                         </div>
                     </div>
                 </div>
@@ -147,47 +146,47 @@
         </div>
 
         <!-- M2 INTERNET (3-col grid side-by-side) -->
-        <div class="flex mb-3 rounded-lg overflow-hidden border-2 border-teal-600 print-tight">
-            <div class="bg-teal-600 text-white flex flex-col justify-center items-center w-12 shrink-0">
-                <span class="vertical-text font-black text-xl tracking-widest">INTERNET</span>
-                <span class="text-xs font-bold mt-2">M2</span>
+        <div class="flex mb-2 rounded-lg overflow-hidden border-2 border-teal-600 print-tight">
+            <div class="bg-teal-600 text-white flex flex-col justify-center items-center w-10 shrink-0">
+                <span class="vertical-text font-black text-lg tracking-widest">INTERNET</span>
+                <span class="text-[10px] font-bold mt-2">M2</span>
             </div>
-            <div class="p-2 w-full bg-teal-50 print-tight">
-                <div class="grid grid-cols-3 gap-2 h-full print-tight">
+            <div class="p-1.5 w-full bg-teal-50 print-tight">
+                <div class="grid grid-cols-3 gap-1.5 h-full print-tight">
                     <!-- Gig Internet -->
-                    <div class="bg-teal-100 border border-teal-200 p-3 rounded flex flex-col justify-between print-p-2">
-                        <div class="flex justify-between items-start">
-                            <h3 class="font-bold text-teal-900 text-lg leading-tight">Gig Internet</h3>
-                            <span class="bg-teal-600 text-white text-xs font-bold px-2 py-1 rounded">1.25 Credits</span>
+                    <div class="bg-teal-100 border border-teal-200 p-2 rounded flex flex-col justify-between">
+                        <div class="flex justify-between items-start mb-1">
+                            <h3 class="font-bold text-teal-900 text-sm leading-none">Gig Internet</h3>
+                            <span class="bg-teal-600 text-white text-[10px] font-bold px-1.5 py-0.5 rounded">1.25 Credits</span>
                         </div>
-                        <div class="mt-2">
-                            <p class="text-xs font-bold text-teal-700 uppercase">Accelerator (110%+)</p>
-                            <p class="text-4xl font-black text-teal-900 leading-none my-1" id="m2_gig_accel">$0.00</p>
-                            <p class="text-xs text-teal-800 font-semibold">80-110% Window: <span id="m2_gig_base">$0.00</span></p>
+                        <div>
+                            <p class="text-[10px] font-bold text-teal-700 uppercase leading-none">Accelerator (110%+)</p>
+                            <p class="text-3xl font-black text-teal-900 leading-none mt-1 mb-1" id="m2_gig_accel">$0.00</p>
+                            <p class="text-[10px] text-teal-800 font-semibold leading-none">80-110% Window: <span id="m2_gig_base">$0.00</span></p>
                         </div>
                     </div>
                     <!-- All Other Internet -->
-                    <div class="bg-teal-100 border border-teal-200 p-3 rounded flex flex-col justify-between print-p-2">
-                        <div class="flex justify-between items-start">
-                            <h3 class="font-bold text-teal-900 text-lg leading-tight">All Other Internet</h3>
-                            <span class="bg-teal-600 text-white text-xs font-bold px-2 py-1 rounded">1.0 Credits</span>
+                    <div class="bg-teal-100 border border-teal-200 p-2 rounded flex flex-col justify-between">
+                        <div class="flex justify-between items-start mb-1">
+                            <h3 class="font-bold text-teal-900 text-sm leading-none">All Other Internet</h3>
+                            <span class="bg-teal-600 text-white text-[10px] font-bold px-1.5 py-0.5 rounded">1.0 Credits</span>
                         </div>
-                        <div class="mt-2">
-                            <p class="text-xs font-bold text-teal-700 uppercase">Accelerator (110%+)</p>
-                            <p class="text-4xl font-black text-teal-900 leading-none my-1" id="m2_other_accel">$0.00</p>
-                            <p class="text-xs text-teal-800 font-semibold">80-110% Window: <span id="m2_other_base">$0.00</span></p>
+                        <div>
+                            <p class="text-[10px] font-bold text-teal-700 uppercase leading-none">Accelerator (110%+)</p>
+                            <p class="text-3xl font-black text-teal-900 leading-none mt-1 mb-1" id="m2_other_accel">$0.00</p>
+                            <p class="text-[10px] text-teal-800 font-semibold leading-none">80-110% Window: <span id="m2_other_base">$0.00</span></p>
                         </div>
                     </div>
                     <!-- Tier Upgrades -->
-                    <div class="bg-teal-100 border border-teal-200 p-3 rounded flex flex-col justify-between print-p-2">
-                        <div class="flex justify-between items-start">
-                            <h3 class="font-bold text-teal-900 text-lg leading-tight">Tier Upgrades /<br>Next-Gen</h3>
-                            <span class="bg-teal-600 text-white text-xs font-bold px-2 py-1 rounded">0.25 Credits</span>
+                    <div class="bg-teal-100 border border-teal-200 p-2 rounded flex flex-col justify-between">
+                        <div class="flex justify-between items-start mb-1">
+                            <h3 class="font-bold text-teal-900 text-sm leading-tight">Tier Upgrades /<br>Next-Gen</h3>
+                            <span class="bg-teal-600 text-white text-[10px] font-bold px-1.5 py-0.5 rounded">0.25 Credits</span>
                         </div>
-                        <div class="mt-2">
-                            <p class="text-xs font-bold text-teal-700 uppercase">Accelerator (110%+)</p>
-                            <p class="text-4xl font-black text-teal-900 leading-none my-1" id="m2_tier_accel">$0.00</p>
-                            <p class="text-xs text-teal-800 font-semibold">80-110% Window: <span id="m2_tier_base">$0.00</span></p>
+                        <div>
+                            <p class="text-[10px] font-bold text-teal-700 uppercase leading-none">Accelerator (110%+)</p>
+                            <p class="text-3xl font-black text-teal-900 leading-none mt-1 mb-1" id="m2_tier_accel">$0.00</p>
+                            <p class="text-[10px] text-teal-800 font-semibold leading-none">80-110% Window: <span id="m2_tier_base">$0.00</span></p>
                         </div>
                     </div>
                 </div>
@@ -196,54 +195,48 @@
 
         <!-- M3 ALL OTHER (2-col grid side-by-side) -->
         <div class="flex rounded-lg overflow-hidden border-2 border-orange-500 print-tight">
-            <div class="bg-orange-500 text-white flex flex-col justify-center items-center w-12 shrink-0">
-                <span class="vertical-text font-black text-xl tracking-widest">ALL OTHER</span>
-                <span class="text-xs font-bold mt-2">M3</span>
+            <div class="bg-orange-500 text-white flex flex-col justify-center items-center w-10 shrink-0">
+                <span class="vertical-text font-black text-lg tracking-widest uppercase">All Other</span>
+                <span class="text-[10px] font-bold mt-2">M3</span>
             </div>
-            <div class="p-2 w-full bg-orange-50 print-tight">
-                <div class="grid grid-cols-2 gap-2 h-full print-tight">
+            <div class="p-1.5 w-full bg-orange-50 print-tight">
+                <div class="grid grid-cols-2 gap-1.5 h-full print-tight">
                     <!-- Ent, Home & Voice -->
-                    <div class="bg-orange-100 border border-orange-200 p-3 rounded flex flex-col justify-between print-p-2">
-                        <div class="flex justify-between items-start">
-                            <h3 class="font-bold text-orange-900 text-lg leading-tight">Entertainment, Home<br>& Voice</h3>
-                            <span class="bg-orange-500 text-white text-xs font-bold px-2 py-1 rounded">1.0 Credits</span>
+                    <div class="bg-orange-100 border border-orange-200 p-2 rounded flex flex-col justify-between">
+                        <div class="flex justify-between items-start mb-1">
+                            <h3 class="font-bold text-orange-900 text-sm leading-tight">Entertainment, Home<br>& Voice</h3>
+                            <span class="bg-orange-500 text-white text-[10px] font-bold px-1.5 py-0.5 rounded">1.0 Credits</span>
                         </div>
-                        <div class="mt-2">
-                            <p class="text-xs font-bold text-orange-600 uppercase">Standard Payout (Uncapped 1:1)</p>
-                            <p class="text-4xl font-black text-orange-900 leading-none my-1" id="m3_main_base">$0.00</p>
-                            <p class="text-xs text-orange-800 font-semibold italic">M3 pays linearly above 100%.</p>
+                        <div>
+                            <p class="text-[10px] font-bold text-orange-600 uppercase leading-none">Standard Payout (Uncapped 1:1)</p>
+                            <p class="text-3xl font-black text-orange-900 leading-none mt-1 mb-1" id="m3_main_base">$0.00</p>
+                            <p class="text-[10px] text-orange-800 font-semibold italic leading-none">M3 pays linearly above 100%.</p>
                         </div>
                     </div>
                     <!-- StreamSaver & Acc -->
-                    <div class="bg-orange-100 border border-orange-200 p-3 rounded flex flex-col justify-between print-p-2">
-                        <div class="flex justify-between items-start">
-                            <h3 class="font-bold text-orange-900 text-lg leading-tight">StreamSaver &<br>Accessories</h3>
-                            <span class="bg-orange-500 text-white text-xs font-bold px-2 py-1 rounded">0.25 Credits</span>
+                    <div class="bg-orange-100 border border-orange-200 p-2 rounded flex flex-col justify-between">
+                        <div class="flex justify-between items-start mb-1">
+                            <h3 class="font-bold text-orange-900 text-sm leading-tight">StreamSaver &<br>Accessories</h3>
+                            <span class="bg-orange-500 text-white text-[10px] font-bold px-1.5 py-0.5 rounded">0.25 Credits</span>
                         </div>
-                        <div class="mt-2">
-                            <p class="text-xs font-bold text-orange-600 uppercase">Standard Payout (Uncapped 1:1)</p>
-                            <p class="text-4xl font-black text-orange-900 leading-none my-1" id="m3_acc_base">$0.00</p>
-                            <p class="text-xs text-orange-800 font-semibold italic">Every bit counts toward your goal.</p>
+                        <div>
+                            <p class="text-[10px] font-bold text-orange-600 uppercase leading-none">Standard Payout (Uncapped 1:1)</p>
+                            <p class="text-3xl font-black text-orange-900 leading-none mt-1 mb-1" id="m3_acc_base">$0.00</p>
+                            <p class="text-[10px] text-orange-800 font-semibold italic leading-none">Every bit counts toward your goal.</p>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
         
-        <!-- Attribution -->
-        <div class="mt-2 text-right text-[10px] text-gray-400 font-semibold">
-            Built by Bailey West
-        </div>
     </div>
 
     <script>
-        // TIC Values based on Role
         const ticValues = {
             'RSC2': { m1: 872.50, m2: 290.83, m3: 290.83 },
             'RSC3': { m1: 950.00, m2: 316.67, m3: 316.67 }
         };
 
-        // Determine Fiscal Month
         function updateHeader() {
             const date = new Date();
             let month = date.getMonth(); 
@@ -257,7 +250,6 @@
             document.getElementById('displayStoreName').innerText = store ? store : "Store Overview";
         }
 
-        // Calculation Engine
         function calculate() {
             const role = document.getElementById('roleSelect').value;
             const tics = ticValues[role];
@@ -267,8 +259,6 @@
 
             const format = (val) => val > 0 ? `$${val.toFixed(2)}` : '$0.00';
 
-            // Base Math: (Credit / Goal) * TIC
-            // Accel Math: ((Credit / Goal) * 2) * TIC
             const calcPayout = (credits, goal, tic, isAccel) => {
                 if (goal === 0) return 0;
                 const percentToGoal = credits / goal;
@@ -276,7 +266,6 @@
                 return percentOfTic * tic;
             };
 
-            // M1 Updates
             document.getElementById('m1_plus_base').innerText = format(calcPayout(1.25, m1Goal, tics.m1, false));
             document.getElementById('m1_plus_accel').innerText = format(calcPayout(1.25, m1Goal, tics.m1, true));
             document.getElementById('m1_other_base').innerText = format(calcPayout(1.0, m1Goal, tics.m1, false));
@@ -288,7 +277,6 @@
             document.getElementById('m1_tier_base').innerText = format(calcPayout(0.25, m1Goal, tics.m1, false));
             document.getElementById('m1_tier_accel').innerText = format(calcPayout(0.25, m1Goal, tics.m1, true));
 
-            // M2 Updates
             document.getElementById('m2_gig_base').innerText = format(calcPayout(1.25, m2Goal, tics.m2, false));
             document.getElementById('m2_gig_accel').innerText = format(calcPayout(1.25, m2Goal, tics.m2, true));
             document.getElementById('m2_other_base').innerText = format(calcPayout(1.0, m2Goal, tics.m2, false));
@@ -296,12 +284,10 @@
             document.getElementById('m2_tier_base').innerText = format(calcPayout(0.25, m2Goal, tics.m2, false));
             document.getElementById('m2_tier_accel').innerText = format(calcPayout(0.25, m2Goal, tics.m2, true));
 
-            // M3 Updates (Base only)
             document.getElementById('m3_main_base').innerText = format(calcPayout(1.0, m3Goal, tics.m3, false));
             document.getElementById('m3_acc_base').innerText = format(calcPayout(0.25, m3Goal, tics.m3, false));
         }
 
-        // Print Handler
         function printFlyer(size) {
             const htmlTag = document.documentElement;
             if (size === 'ledger') {
@@ -312,13 +298,11 @@
             window.print();
         }
 
-        // Event Listeners
         document.querySelectorAll('input, select').forEach(el => el.addEventListener('input', () => {
             updateHeader();
             calculate();
         }));
 
-        // Init
         updateHeader();
         calculate();
     </script>
