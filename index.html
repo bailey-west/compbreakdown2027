@@ -7,26 +7,24 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @media print {
-            @page { size: portrait; margin: 0.25in; }
+            @page { size: portrait; margin: 0.2in; }
             body { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
             .no-print { display: none !important; }
-            /* Expand to full width for printing */
             #flyer { max-width: 100% !important; border: none !important; box-shadow: none !important; }
-            /* Default Letter scale */
-            html { font-size: 13px; } 
+            /* Slightly reduced to guarantee single-page fit */
+            html { font-size: 12.5px; } 
         }
         .vertical-text {
             writing-mode: vertical-rl;
             transform: rotate(180deg);
             text-align: center;
         }
-        /* Ledger scale applied via JS */
         html.ledger-mode { font-size: 18px; }
     </style>
 </head>
 <body class="bg-gray-100 font-sans p-4">
 
-    <!-- Control Panel (Hidden on Print) -->
+    <!-- Control Panel -->
     <div class="no-print bg-white p-6 rounded-lg shadow-md mb-6 max-w-4xl mx-auto border-b-4 border-gray-300">
         <h2 class="text-xl font-bold mb-4">Calculator Settings</h2>
         <div class="grid grid-cols-2 md:grid-cols-5 gap-4 items-end">
@@ -55,33 +53,33 @@
             </div>
         </div>
         <div class="mt-6 flex gap-4">
-            <button onclick="printFlyer('letter')" class="bg-blue-600 text-white px-5 py-2 rounded text-base font-bold hover:bg-blue-700">Print Letter (8.5x11 Portrait)</button>
-            <button onclick="printFlyer('ledger')" class="bg-gray-800 text-white px-5 py-2 rounded text-base font-bold hover:bg-gray-900">Print Ledger (11x17 Portrait)</button>
+            <button onclick="printFlyer('letter')" class="bg-blue-600 text-white px-5 py-2 rounded text-base font-bold hover:bg-blue-700">Print Letter (8.5x11)</button>
+            <button onclick="printFlyer('ledger')" class="bg-gray-800 text-white px-5 py-2 rounded text-base font-bold hover:bg-gray-900">Print Ledger (11x17)</button>
         </div>
     </div>
 
     <!-- Printable Flyer -->
     <div id="flyer" class="max-w-4xl mx-auto bg-white p-4 shadow-lg border border-gray-200">
         
-        <!-- Header -->
-        <div class="flex justify-between items-end border-b-4 border-gray-800 pb-2 mb-4">
-            <h1 class="text-3xl font-black uppercase tracking-tight text-gray-900">
+        <!-- Header (Compressed) -->
+        <div class="flex justify-between items-end border-b-2 border-gray-800 pb-1 mb-3">
+            <h1 class="text-2xl font-black uppercase tracking-tight text-gray-900">
                 <span id="displayStoreName"></span> <span id="displayFiscalMonth" class="text-gray-500"></span>
             </h1>
             <div class="text-right">
-                <p class="text-sm font-bold text-gray-600 tracking-widest uppercase">Performance Payouts</p>
+                <p class="text-xs font-bold text-gray-600 tracking-widest uppercase">Performance Payouts</p>
             </div>
         </div>
 
-        <!-- M1 MOBILE (2-col grid for vertical stretch) -->
-        <div class="flex mb-4 rounded-lg overflow-hidden border-2 border-purple-600">
+        <!-- M1 MOBILE -->
+        <div class="flex mb-3 rounded-lg overflow-hidden border-2 border-purple-600">
             <div class="bg-purple-600 text-white flex flex-col justify-center items-center w-12 shrink-0">
                 <span class="vertical-text font-black text-2xl tracking-widest">MOBILE</span>
                 <span class="text-sm font-bold mt-2">M1</span>
+                <span class="text-[9px] font-bold mt-1 uppercase tracking-wider">Goal: <span id="displayM1Goal">0</span></span>
             </div>
             <div class="p-3 w-full bg-purple-50">
                 <div class="grid grid-cols-2 gap-3 h-full">
-                    <!-- Mobile Plus -->
                     <div class="bg-purple-100 border border-purple-200 p-4 rounded-lg flex flex-col justify-between">
                         <div class="flex justify-between items-start mb-2">
                             <h3 class="font-bold text-purple-900 text-lg leading-tight">Mobile Plus</h3>
@@ -93,7 +91,6 @@
                             <p class="text-xs text-purple-800 font-semibold leading-none">80-110% Window: <span id="m1_plus_base">$0.00</span></p>
                         </div>
                     </div>
-                    <!-- All Other Mobile -->
                     <div class="bg-purple-100 border border-purple-200 p-4 rounded-lg flex flex-col justify-between">
                         <div class="flex justify-between items-start mb-2">
                             <h3 class="font-bold text-purple-900 text-lg leading-tight">All Other Mobile<br><span class="text-xs font-normal text-purple-700">Incl. Wablets</span></h3>
@@ -105,7 +102,6 @@
                             <p class="text-xs text-purple-800 font-semibold leading-none">80-110% Window: <span id="m1_other_base">$0.00</span></p>
                         </div>
                     </div>
-                    <!-- Double Ups -->
                     <div class="bg-purple-100 border border-purple-200 p-4 rounded-lg flex flex-col justify-between">
                         <div class="flex justify-between items-start mb-2">
                             <h3 class="font-bold text-purple-900 text-lg leading-tight">Double Ups<br><span class="text-xs font-normal text-purple-700">Device + Tier</span></h3>
@@ -117,7 +113,6 @@
                             <p class="text-xs text-purple-800 font-semibold leading-none">80-110% Window: <span id="m1_double_base">$0.00</span></p>
                         </div>
                     </div>
-                    <!-- Device Upgrades -->
                     <div class="bg-purple-100 border border-purple-200 p-4 rounded-lg flex flex-col justify-between">
                         <div class="flex justify-between items-start mb-2">
                             <h3 class="font-bold text-purple-900 text-lg leading-tight">Device Upgrades</h3>
@@ -129,7 +124,6 @@
                             <p class="text-xs text-purple-800 font-semibold leading-none">80-110% Window: <span id="m1_device_base">$0.00</span></p>
                         </div>
                     </div>
-                    <!-- Tier Upgrades / XMC (Spans 2 columns for a dramatic finish) -->
                     <div class="bg-purple-100 border border-purple-200 p-4 rounded-lg flex flex-col justify-between col-span-2">
                         <div class="flex justify-between items-start mb-2">
                             <h3 class="font-bold text-purple-900 text-lg leading-tight">Tier Upgrade / XMC</h3>
@@ -145,15 +139,15 @@
             </div>
         </div>
 
-        <!-- M2 INTERNET (2-col grid) -->
-        <div class="flex mb-4 rounded-lg overflow-hidden border-2 border-teal-600">
+        <!-- M2 INTERNET -->
+        <div class="flex mb-3 rounded-lg overflow-hidden border-2 border-teal-600">
             <div class="bg-teal-600 text-white flex flex-col justify-center items-center w-12 shrink-0">
                 <span class="vertical-text font-black text-2xl tracking-widest">INTERNET</span>
                 <span class="text-sm font-bold mt-2">M2</span>
+                <span class="text-[9px] font-bold mt-1 uppercase tracking-wider">Goal: <span id="displayM2Goal">0</span></span>
             </div>
             <div class="p-3 w-full bg-teal-50">
                 <div class="grid grid-cols-2 gap-3 h-full">
-                    <!-- Gig Internet -->
                     <div class="bg-teal-100 border border-teal-200 p-4 rounded-lg flex flex-col justify-between col-span-2">
                         <div class="flex justify-between items-start mb-2">
                             <h3 class="font-bold text-teal-900 text-lg leading-tight">Gig Internet</h3>
@@ -165,7 +159,6 @@
                             <p class="text-xs text-teal-800 font-semibold leading-none">80-110% Window: <span id="m2_gig_base">$0.00</span></p>
                         </div>
                     </div>
-                    <!-- All Other Internet -->
                     <div class="bg-teal-100 border border-teal-200 p-4 rounded-lg flex flex-col justify-between">
                         <div class="flex justify-between items-start mb-2">
                             <h3 class="font-bold text-teal-900 text-lg leading-tight">All Other Internet</h3>
@@ -177,7 +170,6 @@
                             <p class="text-xs text-teal-800 font-semibold leading-none">80-110% Window: <span id="m2_other_base">$0.00</span></p>
                         </div>
                     </div>
-                    <!-- Tier Upgrades -->
                     <div class="bg-teal-100 border border-teal-200 p-4 rounded-lg flex flex-col justify-between">
                         <div class="flex justify-between items-start mb-2">
                             <h3 class="font-bold text-teal-900 text-lg leading-tight">Tier Upgrades /<br>Next-Gen</h3>
@@ -193,15 +185,15 @@
             </div>
         </div>
 
-        <!-- M3 ALL OTHER (2-col grid) -->
+        <!-- M3 ALL OTHER -->
         <div class="flex rounded-lg overflow-hidden border-2 border-orange-500">
             <div class="bg-orange-500 text-white flex flex-col justify-center items-center w-12 shrink-0">
                 <span class="vertical-text font-black text-2xl tracking-widest uppercase">All Other</span>
                 <span class="text-sm font-bold mt-2">M3</span>
+                <span class="text-[9px] font-bold mt-1 uppercase tracking-wider">Goal: <span id="displayM3Goal">0</span></span>
             </div>
             <div class="p-3 w-full bg-orange-50">
                 <div class="grid grid-cols-2 gap-3 h-full">
-                    <!-- Ent, Home & Voice -->
                     <div class="bg-orange-100 border border-orange-200 p-4 rounded-lg flex flex-col justify-between">
                         <div class="flex justify-between items-start mb-2">
                             <h3 class="font-bold text-orange-900 text-lg leading-tight">Entertainment, Home<br>& Voice</h3>
@@ -213,7 +205,6 @@
                             <p class="text-xs text-orange-800 font-semibold italic leading-none">M3 pays linearly above 100%.</p>
                         </div>
                     </div>
-                    <!-- StreamSaver & Acc -->
                     <div class="bg-orange-100 border border-orange-200 p-4 rounded-lg flex flex-col justify-between">
                         <div class="flex justify-between items-start mb-2">
                             <h3 class="font-bold text-orange-900 text-lg leading-tight">StreamSaver &<br>Accessories</h3>
@@ -256,6 +247,10 @@
             const m1Goal = parseFloat(document.getElementById('m1Goal').value) || 0;
             const m2Goal = parseFloat(document.getElementById('m2Goal').value) || 0;
             const m3Goal = parseFloat(document.getElementById('m3Goal').value) || 0;
+
+            document.getElementById('displayM1Goal').innerText = m1Goal;
+            document.getElementById('displayM2Goal').innerText = m2Goal;
+            document.getElementById('displayM3Goal').innerText = m3Goal;
 
             const format = (val) => val > 0 ? `$${val.toFixed(2)}` : '$0.00';
 
